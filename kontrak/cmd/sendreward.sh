@@ -4,6 +4,6 @@ cleos -u https://api.databisnis.id push action bitliquidity sendreward '[]' -p b
 
 # panggil pakai cron
 # ganti kontraknya
-curl -X POST -H 'Content-Type: application/json' -i 'http://cron.bitvexa.id/api/liquidity-mining/sendreward' --data '{
+curl -X POST -H 'Content-Type: application/json' -i 'http://cron.bitvexa.id/api/liquidity-farming/sendreward' --data '{
   "contract": "bitliquidity"
 }'
