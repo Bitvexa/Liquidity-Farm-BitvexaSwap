@@ -8,3 +8,4 @@
 |     4     |  EOA  | vexnewtokens |
 |     5     |  FOX  | foxauthority |
 |     6     | ARSI  | arsitektoken |
+|     7     | MYRO  | myrovextoken |
