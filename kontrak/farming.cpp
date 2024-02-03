@@ -65,24 +65,21 @@ void farming::sync() {
     auto stateData = state.begin();
     check(stateData != state.end(), "belum dimulai");
 
+    uint64_t now = current_time_point().sec_since_epoch();
+    check(now <= stateData->until, "sudah berakhir");
+
     Provider provider(BTV_SWAP, stateData->code.raw());
     auto itrProvider = provider.lower_bound(stateData->next.value);
-    uint64_t now = current_time_point().sec_since_epoch();
 
-    bool reachEnd = false;
-    for (int i = 0; i < 20; i++, itrProvider++) {
-        if (itrProvider == provider.end()) {
-            reachEnd = true;
-            break;
-        }
+    for (int i = 0; i < 25 && itrProvider != provider.end(); i++, itrProvider++) {
         farming::insertUser(itrProvider->owner, itrProvider->liquidity, now);
     }
 
     // setel user selanjutnya
     name next;
     string retVal = "oke";
-    if (!reachEnd) itrProvider++;
     if (itrProvider != provider.end()) {
+        itrProvider++;
         next = itrProvider->owner;
         retVal = "has_more";
     } else {
@@ -117,6 +114,7 @@ void farming::sendreward() {
     check(stateData != state.end(), "belum dimulai");
 
     uint64_t now = current_time_point().sec_since_epoch();
+    if (now > stateData->until) now = stateData->until;
     uint32_t hour = 3600; // 1 jam
 
     Provider provider(BTV_SWAP, stateData->code.raw());
