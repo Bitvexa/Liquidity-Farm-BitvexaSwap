@@ -72,6 +72,7 @@ void farming::sync() {
     auto itrProvider = provider.lower_bound(stateData->next.value);
 
     for (int i = 0; i < 25 && itrProvider != provider.end(); i++, itrProvider++) {
+        if (farming::isExcluded(itrProvider->owner)) continue; // komen baris ini jika tidak perlu
         farming::insertUser(itrProvider->owner, itrProvider->liquidity, now);
     }
 

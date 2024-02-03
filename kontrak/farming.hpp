@@ -8,6 +8,11 @@ using namespace std;
 
 static constexpr name BTV_SWAP = name("bitvexaswap");
 
+// akun milik Dev bisa dikecualikan agar tidak mendapatkan reward
+static std::map<string, int> excluded = {
+    {"bitvexa", 1}, {"pool.bitvexa", 1}
+};
+
 CONTRACT farming : public contract {
 public:
     using contract::contract;
@@ -80,5 +85,10 @@ private:
 
     };
     using Provider = eosio::multi_index<"provider"_n, provider>;
+
+    bool isExcluded(name account) {
+        auto data = excluded.find(account.to_string());
+        return data != excluded.end();
+    }
 
 };
